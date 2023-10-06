@@ -21,13 +21,16 @@ To Build The Application
 	docker build -t app .
 To Run Docker App
 	docker run -p 8080:8080 app 
-To Run It In M1 or m2 	docker buildx build  --platform linux/amd64  -t app . 
+To Run It In M1 or M2 apple chip	
+    docker buildx build  --platform linux/amd64  -t app . 
 
 ```
 
 Once you succesfully build the docker app, you can open your docker desktop and check whether your app is running or not. 
 
 ## Steps to deploy the project to your google cloud run
+
+Before doing the below steps, make sure that you have gcloud installed in your machine and the default project is selected using the gcloud command before you are deploying. 
 
 ```
 gcloud services enable artifactregistry.googleapis.com
