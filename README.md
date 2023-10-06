@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# React App For Google Cloud Run
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository gives you a sample code and instruction to deploy your react application to the google cloud run. 
 
-## Available Scripts
+Prerequisite
 
-In the project directory, you can run:
+* Must have the docker desktop app in your machine. 
+* Must have the node version installed in your machine. 
 
-### `npm start`
+## What is Docker?
+Docker is a container platform that allows you to build, test and deploy applications quickly.
+A developer defines all the applications and its dependencies in a Dockerfile which is then used to build Docker images that defines a Docker container. Doing this ensures that your application will run in any environment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## What is a Container?
+A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Note: You can clone this project and follow the below commands
 
-### `npm test`
+```
+To Build The Application
+	docker build -t app .
+To Run Docker App
+	docker run -p 8080:8080 app 
+To Run It In M1 or m2 	docker buildx build  --platform linux/amd64  -t app . 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
 
-### `npm run build`
+Once you succesfully build the docker app, you can open your docker desktop and check whether your app is running or not. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Steps to deploy the project to your google cloud run
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+gcloud services enable artifactregistry.googleapis.com
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+gcloud artifacts repositories create {repo-name} --repository-format=docker --location=us-central1 --description="created repo"
 
-### `npm run eject`
+gcloud auth configure-docker us-central1-docker.pkg.dev
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+docker tag {local-image-name} us-central1-docker.pkg.dev/{project-name}/{repo-name}/{gcp-image-name}
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+docker push us-central1-docker.pkg.dev/{project-name}/{repo-name}/{gcp-image-name}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
